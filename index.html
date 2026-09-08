@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Benchwarmer's Bulletin — League of Extraordinary Devils</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,900&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE7D8;
+    --paper-shadow:#DFD8C4;
+    --ink:#211E19;
+    --ink-soft:#4A453C;
+    --rule:#211E19;
+    --rule-light:#B9AF97;
+    --masthead-red:#8C1D40;
+    --field-green:#FFC627;
+    --gold:#FFC627;
+    --gold-dark:#8a6b1f;
+    --card-bg:#F5F1E4;
+    --max-width:1180px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:#3a352b;
+    color:var(--ink);
+    font-family:'PT Serif', Georgia, serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .sheet{
+    max-width:var(--max-width);
+    margin:32px auto;
+    background:var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(0,0,0,0.03), transparent 40%),
+      radial-gradient(ellipse at bottom right, rgba(0,0,0,0.03), transparent 40%);
+    box-shadow:0 20px 60px rgba(0,0,0,0.45);
+    padding:36px 44px 60px;
+    position:relative;
+  }
+
+  /* ---------- Toolbar (screen only) ---------- */
+  .toolbar{
+    max-width:var(--max-width);
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-family:'Oswald', sans-serif;
+    color:#EDE7D8;
+    font-size:13px;
+    padding:0 4px;
+  }
+  .toolbar span{opacity:0.75;}
+  .toolbar button{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    letter-spacing:0.03em;
+    background:var(--masthead-red);
+    color:#fff;
+    border:none;
+    padding:9px 16px;
+    cursor:pointer;
+    border-radius:2px;
+  }
+  .toolbar button:hover{background:#701818;}
+
+  [contenteditable="true"]{
+    outline:none;
+    border-radius:2px;
+    transition:background 0.15s ease;
+  }
+  [contenteditable="true"]:hover{background:rgba(139,30,30,0.07);}
+  [contenteditable="true"]:focus{background:rgba(139,30,30,0.12);}
+
+  /* ---------- Masthead ---------- */
+  .dateline{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--rule);
+    padding-bottom:8px;
+  }
+
+  .masthead{
+    text-align:center;
+    padding:18px 0 14px;
+    border-bottom:4px double var(--rule);
+  }
+  .masthead .eyebrow{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    margin-bottom:6px;
+  }
+  .masthead h1{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:clamp(42px, 7vw, 78px);
+    margin:0;
+    letter-spacing:-0.01em;
+    line-height:0.95;
+  }
+  .masthead .tagline{
+    font-style:italic;
+    font-size:15px;
+    color:var(--ink-soft);
+    margin-top:10px;
+  }
+
+  .subline{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Oswald', sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--rule);
+    padding:8px 0;
+    margin-bottom:28px;
+  }
+
+  /* ---------- Section labels ---------- */
+  .flag{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    background:var(--field-green);
+    padding:6px 12px;
+    margin-bottom:14px;
+    display:inline-block;
+  }
+  .flag.red{background:var(--masthead-red); color:#fff;}
+
+  /* ---------- Grid layout ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1.6fr 1fr;
+    gap:0 30px;
+    margin-bottom:10px;
+  }
+  .grid > .col + .col{
+    border-left:1px solid var(--rule-light);
+    padding-left:30px;
+  }
+  .col{padding-bottom:6px;}
+
+  .full-row{
+    grid-column:1 / -1;
+    border-top:1px solid var(--rule-light);
+    margin-top:24px;
+    padding-top:24px;
+  }
+
+  /* ---------- Power rankings ---------- */
+  .rank-list{list-style:none;margin:0;padding:0;}
+  .rank-item{
+    display:grid;
+    grid-template-columns:26px 20px 1fr;
+    gap:8px;
+    padding:9px 0;
+    border-bottom:1px dotted var(--rule-light);
+  }
+  .rank-item:first-child{padding-top:0;}
+  .rank-num{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:19px;
+    color:var(--masthead-red);
+  }
+  .rank-move{font-size:12px; align-self:center;}
+  .rank-move.up{color:var(--gold-dark);}
+  .rank-move.down{color:var(--masthead-red);}
+  .rank-move.flat{color:var(--gold-dark);}
+
+  .rank-grid-2col{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-auto-flow:column;
+    grid-template-rows:repeat(6, auto);
+    column-gap:30px;
+  }
+  .rank-grid-2col .rank-item:nth-child(n+7){
+    border-left:1px solid var(--rule-light);
+    padding-left:30px;
+  }
+
+  .matchup-grid-2col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-auto-flow:column;
+    grid-template-rows:repeat(3, auto);
+    column-gap:30px;
+  }
+  .matchup-grid-2col > .recap-minor:nth-child(n+4){
+    border-left:1px solid var(--rule-light);
+    padding-left:30px;
+  }
+  .matchup-grid-2col > .recap-minor{
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid var(--rule-light);
+  }
+  .matchup-grid-2col > .recap-minor:nth-child(1),
+  .matchup-grid-2col > .recap-minor:nth-child(4){
+    margin-top:0;
+    padding-top:0;
+    border-top:none;
+  }
+  .rank-lastyear{
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    margin-top:4px;
+    font-style:italic;
+  }
+
+  .headline-item{
+    padding:9px 0;
+    border-bottom:1px dotted var(--rule-light);
+  }
+  .headline-item:first-child{padding-top:0;}
+  .headline-item h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15px;
+    line-height:1.2;
+    margin:0 0 2px;
+  }
+  .headline-item .sub{
+    font-size:12.5px;
+    font-style:italic;
+    color:var(--ink-soft);
+  }
+  .rank-team{font-weight:700;}
+  .rank-blurb{font-size:13.5px; color:var(--ink-soft); margin-top:2px;}
+
+  .rank-blurb .verdict{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+  }
+
+  .editor-pick{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    margin-top:10px;
+  }
+  .editor-pick .confidence{
+    font-weight:400;
+    font-style:italic;
+    text-transform:none;
+    color:var(--ink-soft);
+    letter-spacing:0;
+  }
+
+  .div-nickname{
+    font-style:italic;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:-8px 0 8px;
+  }
+
+  .history-box{
+    background:var(--card-bg);
+    border:1px solid var(--rule-light);
+    border-left:4px solid var(--gold);
+    padding:18px 22px;
+  }
+  .history-box h4{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  .history-box p{
+    font-size:14px;
+    margin:0 0 8px;
+  }
+  .history-box p:last-child{margin-bottom:0;}
+  .history-year{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    color:var(--masthead-red);
+  }
+
+  .classifieds-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:4px 28px;
+    column-rule:1px dotted var(--rule-light);
+  }
+  .classified-ad{
+    border-bottom:1px dotted var(--rule-light);
+    padding:10px 0;
+  }
+  .classified-ad .cat{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    margin-bottom:3px;
+  }
+  .classified-ad p{
+    font-size:13px;
+    margin:0;
+    font-style:italic;
+    color:var(--ink-soft);
+  }
+  .classifieds-note{
+    font-family:'Oswald', sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid var(--rule-light);
+  }
+
+  /* ---------- Recap ---------- */
+  .headline-story h2{
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    font-weight:600;
+    line-height:1.08;
+    margin:0 0 6px;
+  }
+  .byline{
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+  .score-strip{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:22px;
+    border-top:2px solid var(--rule);
+    border-bottom:2px solid var(--rule);
+    padding:8px 4px;
+    margin:10px 0 14px;
+  }
+  .score-strip .vs{font-size:14px; color:var(--ink-soft); align-self:center;}
+  .recap-body{columns:1; font-size:15px;}
+  .recap-body p{margin:0 0 10px;}
+
+  .recap-minor{margin-top:26px;}
+  .recap-minor h3{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .recap-minor .score-strip{font-size:16px; padding:5px 4px; margin:6px 0 8px;}
+  .recap-minor p{font-size:13.5px; margin:0; color:var(--ink-soft);}
+
+  /* ---------- Standings ---------- */
+  .division{margin-bottom:20px;}
+  .division h3{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:4px;
+    margin:0 0 6px;
+  }
+  table.standings{width:100%; border-collapse:collapse; font-size:13px;}
+  table.standings th{
+    font-family:'Oswald', sans-serif;
+    font-weight:500;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    text-align:right;
+    color:var(--ink-soft);
+    padding:3px 0 3px 6px;
+  }
+  table.standings th:first-child{text-align:left; padding-left:0;}
+  table.standings td{
+    padding:4px 0 4px 6px;
+    text-align:right;
+    border-top:1px dotted var(--rule-light);
+  }
+  table.standings td:first-child{text-align:left; font-weight:700; padding-left:0;}
+
+  /* ---------- Stars of the week ---------- */
+  .stars-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .star-card{
+    background:var(--card-bg);
+    border:1px solid var(--rule-light);
+    padding:16px;
+  }
+  .star-card .pos{
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:4px;
+  }
+  .star-card h4{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    margin:0 0 4px;
+  }
+  .star-card .stat-line{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--masthead-red);
+    margin-bottom:8px;
+  }
+  .star-card p{font-size:13px; margin:0; color:var(--ink-soft);}
+
+  /* ---------- Injury report ---------- */
+  table.injury{width:100%; border-collapse:collapse; font-size:13px;}
+  table.injury th{
+    font-family:'Oswald', sans-serif;
+    font-weight:500;
+    font-size:10.5px;
+    text-transform:uppercase;
+    text-align:left;
+    color:var(--ink-soft);
+    padding-bottom:5px;
+    border-bottom:1px solid var(--rule);
+  }
+  table.injury td{
+    padding:6px 8px 6px 0;
+    border-top:1px dotted var(--rule-light);
+    vertical-align:top;
+  }
+  .status{
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .status.out{background:#e4d3d3; color:var(--masthead-red);}
+  .status.quest{background:#ecdcb8; color:#7a5a12;}
+  .status.prob{background:#f5ecc6; color:var(--gold-dark);}
+
+  /* ---------- Preview ---------- */
+  .matchup-list{list-style:none; margin:0; padding:0; columns:2; column-gap:28px;}
+  .matchup{
+    break-inside:avoid;
+    padding:9px 0;
+    border-bottom:1px dotted var(--rule-light);
+  }
+  .matchup .teams{font-weight:700; font-size:14px;}
+  .matchup .pick{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+
+  .matchup-byline{
+    font-family:'PT Serif', Georgia, serif;
+    font-style:italic;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
+
+  .ad-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:20px;
+  }
+  .ad-box{
+    border:2px solid var(--ink);
+    padding:16px 14px;
+    text-align:center;
+    background:var(--card-bg);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .ad-label{
+    font-family:'Oswald', sans-serif;
+    font-size:9px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .ad-headline{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:17px;
+    line-height:1.15;
+    margin:0 0 6px;
+  }
+  .ad-body{
+    font-size:12px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+  .ad-tag{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:10.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    margin:0;
+  }
+
+  .staff-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:24px;
+  }
+  .staff-card .name{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:18px;
+    margin:0 0 2px;
+  }
+  .staff-card .beat{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--masthead-red);
+    margin:0 0 8px;
+  }
+  .staff-card .bio{
+    font-size:13px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* ---------- Footer ---------- */
+  .masthead-footer{
+    margin-top:34px;
+    padding-top:14px;
+    border-top:1px solid var(--rule);
+    text-align:center;
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width: 860px){
+    .grid{grid-template-columns:1fr;}
+    .grid > .col + .col{border-left:none; padding-left:0; border-top:1px solid var(--rule-light); margin-top:20px; padding-top:20px;}
+    .stars-row{grid-template-columns:1fr;}
+    .matchup-list{columns:1;}
+    .sheet{padding:24px 18px 40px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    .toolbar{display:none;}
+    .sheet{box-shadow:none; margin:0; max-width:100%;}
+    [contenteditable="true"]:hover, [contenteditable="true"]:focus{background:transparent;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <span>Click any text to edit it. Nothing saves automatically — print or export when you're done.</span>
+    <button onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <div class="sheet">
+
+    <div class="dateline">
+      <span contenteditable="true">Preseason Edition &middot; 2026 Season</span>
+      <span contenteditable="true">Price: Optimism (For Now)</span>
+    </div>
+
+    <div class="masthead">
+      <div class="eyebrow">Fantasy Football &middot; League Edition</div>
+      <h1 contenteditable="true">THE BENCHWARMER'S BULLETIN</h1>
+      <div class="tagline" contenteditable="true">Twelve owners, three divisions, one devilish fight for the crown.</div>
+    </div>
+
+    <div class="subline">
+      <span contenteditable="true">Vol. 1, No. 0 — Preseason</span>
+      <span contenteditable="true">League of Extraordinary Devils</span>
+      <span contenteditable="true">Reported by the Commissioner's Office</span>
+    </div>
+
+    <!-- ROW 1: Standings+Injury (left) / Season Preview+Power Rankings (right) -->
+    <div class="grid" style="grid-template-columns:1fr 1.7fr;">
+
+      <div class="col">
+        <div class="flag">Headlines</div>
+        <div class="headline-item">
+          <h4 contenteditable="true">Reigning Champ Borovay Enters Title Defense on One Good Knee</h4>
+          <div class="sub" contenteditable="true">Turns out repeating is a lot harder when your quarterback can't practice.</div>
+        </div>
+        <div class="headline-item">
+          <h4 contenteditable="true">Charlie Went Aggressive, Traded Up, Still Thin Everywhere Else</h4>
+          <div class="sub" contenteditable="true">Finished last a year ago. Didn't improve much. Expect more future picks to disappear before this is over.</div>
+        </div>
+        <div class="headline-item">
+          <h4 contenteditable="true">Four Years Removed From The Playoffs, Suekoff Bets The Comeback On Year Two Dart</h4>
+          <div class="sub" contenteditable="true">The longest active drought in the league looks for a way out.</div>
+        </div>
+        <div class="headline-item">
+          <h4 contenteditable="true">Riding A Four-Year Playoff Streak, Jordan Just Keeps Winning Arguments</h4>
+          <div class="sub" contenteditable="true">The rest of the league would like him to stop being right.</div>
+        </div>
+        <div class="headline-item">
+          <h4 contenteditable="true">Last Original Owner Without A Ring, Gembo Insists This Is Finally The Year</h4>
+          <div class="sub" contenteditable="true">He said the same thing in 2019. And 2022. And 2024.</div>
+        </div>
+
+        <div class="flag red" style="margin-top:10px;">League Standings</div>
+        <div class="division">
+          <h3 contenteditable="true">Shane Falco Division</h3>
+          <table class="standings">
+            <thead><tr><th>Team</th><th>W-L</th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Get Griddy With It (Nick)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">The Hurts Locker (Rebecca)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">Unsolicited Dak Pics (Parker)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">Fat JaMarcus Russell (Justin)</td><td contenteditable="true">0-0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="division">
+          <h3 contenteditable="true">Bobbie Miles Division</h3>
+          <table class="standings">
+            <thead><tr><th>Team</th><th>W-L</th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Jayden's Mambo No. 4s (Jordan)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">BRICKED4BRANDONAUBREY (Charlie)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">Baker's Bunch (Robby)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">DAMNNN Daniel!! (Matt)</td><td contenteditable="true">0-0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="division">
+          <h3 contenteditable="true">Paul Crewe Division</h3>
+          <table class="standings">
+            <thead><tr><th>Team</th><th>W-L</th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Mahomes Depot (Borovay)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">Breece Yourselves (Suekoff)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">The Idea of BO-lieve (Gembo)</td><td contenteditable="true">0-0</td></tr>
+              <tr><td contenteditable="true">Barking up the Wrong Tree (Ross)</td><td contenteditable="true">0-0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flag" style="margin-top:10px;">Week 1 Injury Report</div>
+        <div class="rank-blurb" style="margin-bottom:10px;" contenteditable="true">Nothing ruins a Sunday morning lineup card faster than this list. Check it twice.</div>
+        <table class="injury">
+          <thead><tr><th>Player</th><th>Status</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr>
+              <td contenteditable="true">Patrick Mahomes (Borovay)</td>
+              <td><span class="status quest" contenteditable="true">Day-to-Day</span></td>
+              <td contenteditable="true">Working back from a torn ACL/LCL. Trending toward playing, but no official Week 1 clearance yet.</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">Ja'Marr Chase (Matt)</td>
+              <td><span class="status prob" contenteditable="true">Expected to Play</span></td>
+              <td contenteditable="true">Hyperextended knee with a bone bruise. No long-term concern reported.</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">Malik Nabers (Rebecca)</td>
+              <td><span class="status prob" contenteditable="true">Expected to Play</span></td>
+              <td contenteditable="true">Working back from a torn ACL. Full practice participation is a good sign for Week 1.</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">Jeremiyah Love (Robby)</td>
+              <td><span class="status quest" contenteditable="true">Questionable</span></td>
+              <td contenteditable="true">High ankle sprain. NFL Network reports him a coin flip for Week 1 — monitor closely before lineups lock.</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">George Kittle (Justin, bench)</td>
+              <td><span class="status out" contenteditable="true">Likely Out</span></td>
+              <td contenteditable="true">Coming back from a torn Achilles. The 49ers have said they won't rush him — Week 2 looks more likely than Week 1.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col headline-story">
+        <div class="flag red">Season Preview</div>
+        <h2 contenteditable="true">Fourteen Seasons In, the Devils Kick Off Again</h2>
+        <div class="byline" contenteditable="true">By the League Newsroom &middot; Preseason Edition</div>
+        <div class="recap-body">
+          <p contenteditable="true">Fourteen years is a long time to keep people showing up every September. The league started with 10 teams back in 2013, grew to 12 as five new faces joined over the years, and has said goodbye to three of the original ten along the way. Rosters turn over, team names get rebranded, kids get born, and somehow the league survives all of it. Season 14 of the League of Extraordinary Devils kicks off this week with a new name in the record book — Borovay's Mahomes Depot snuck into the playoffs at 7-7 last year and ran the table for his first championship. That leaves exactly one of the seven remaining original franchises still searching for its first title: Gembo. For everyone else, there's a full season to try to knock the new champ back down.</p>
+          <p contenteditable="true">It was a good draft, the dues are all paid, and at this point nobody has any excuse to miss a game — not when football is somehow streaming on a different platform every single night of the week. Wednesday game? There's an app for that. Thursday? A different app. Sunday comes with its usual pile of options plus whatever new service decided this was the year to get into football, and Monday night is now split across two networks like anyone was asking for that. It is, genuinely, a ridiculous number of ways to watch a fantasy lineup lose by 0.4 points. Use one of them. This is also year one of a brand-new three-year division cycle — the league shuffled the groupings this offseason, so a few of these early matchups are first-time rivalries. The first three weeks of the schedule are all division games, so early bragging rights are on the line before anyone even gets a look at the rest of the league. Here's how each division shapes up.</p>
+        </div>
+
+        <div class="recap-minor">
+          <h3 contenteditable="true">Shane Falco Division</h3>
+          <div class="div-nickname" contenteditable="true">The Blue Bloods</div>
+          <p contenteditable="true">The most decorated group in the league on paper, and it shows in how these rosters are built. Nick's Get Griddy With It — the winningest franchise in league history (105-68 all-time), two titles, riding a three-year playoff streak — is stacked at every skill spot with Josh Allen, Derrick Henry, Justin Jefferson, and Drake London, with real bench depth behind them. Parker's Unsolicited Dak Pics runs its whole operation through Christian McCaffrey's workload, with George Pickens as the complementary piece, still chasing a first title after finishing runner-up. Justin's Fat JaMarcus Russell has a title in the bank from 2015 but missed the playoffs last year — the plan now hinges on two former first-round quarterbacks, Caleb Williams and Matthew Stafford, actually earning their reps. And Rebecca's The Hurts Locker is built the deepest top to bottom in the division; Jalen Hurts and Jonathan Taylor anchor a roster with almost no structural holes.</p>
+          <div class="matchup-byline" contenteditable="true">— Colin Audible</div>
+          <div class="editor-pick" contenteditable="true">Staff Pick to Win Division: The Hurts Locker (Rebecca)</div>
+        </div>
+
+        <div class="recap-minor">
+          <h3 contenteditable="true">Bobbie Miles Division</h3>
+          <div class="div-nickname" contenteditable="true">Ring Row</div>
+          <p contenteditable="true">This division has won three of the last four league championships, and honestly, it shows. Robby's Baker's Bunch has two of them (2022, 2024), Jordan's Jayden's Mambo No. 4s has the other (2023), and both walk in with the kind of quiet confidence that comes from actually knowing how to close. Jordan just keeps winning — two titles, a four-year playoff streak, the best record in the league over the last three years — with Lamar Jackson, Jayden Daniels, and Bijan Robinson leading the way. Robby's lived the full rollercoaster — champion in '22, bottom of the barrel the next year, champion again in '24, bottom again last year — and you get the sense he's due for another high. Matt's DAMNNN Daniel!! walks in with maybe the best receiver duo in the league in Puka Nacua and Ja'Marr Chase, and the lingering question of whether Travis Kelce has one more great year in him. And Charlie's BRICKED4BRANDONAUBREY is still chasing that signature moment — Amon-Ra St. Brown and Terry McLaurin give him hope, but there's real nervous energy around the QB room.</p>
+          <div class="matchup-byline" contenteditable="true">— Frank Lee Hurtz</div>
+          <div class="editor-pick" contenteditable="true">Staff Pick to Win Division: Jayden's Mambo No. 4s (Jordan)</div>
+        </div>
+
+        <div class="recap-minor">
+          <h3 contenteditable="true">Paul Crewe Division</h3>
+          <div class="div-nickname" contenteditable="true">Contenders &amp; Ghosts</div>
+          <p contenteditable="true">The data here tells an interesting story. Borovay's Mahomes Depot is the reigning champion by outcome, not by process — he snuck into the playoffs and rode a hot streak to the title, which isn't exactly a repeatable model, especially with Mahomes's recovery timeline still an unknown variable. Suekoff's Breece Yourselves owns the league's longest active playoff drought at four years, a number that should be genuinely alarming if Jaxson Dart doesn't take a real step forward. Gembo's The Idea of BO-lieve posted the best point differential in the league last season and still didn't get past a runner-up finish — a textbook case of results lagging the underlying numbers, and a strong signal for positive regression this year. And Ross's Barking up the Wrong Tree has a concentrated top three (Prescott, Barkley, Brown) propping up a shallow supporting cast — a fragile model if any one of them slips.</p>
+          <div class="matchup-byline" contenteditable="true">— Ivana Blitz</div>
+          <div class="editor-pick" contenteditable="true">Staff Pick to Win Division: The Idea of BO-lieve (Gembo)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2: Preseason Power Rankings (full width) -->
+    <div class="full-row">
+      <div class="flag">Preseason Power Rankings</div>
+      <div class="rank-blurb" style="margin-bottom:10px;" contenteditable="true">Ranked on full roster strength — top-end talent, depth, and season-long outlook.</div>
+      <ol class="rank-grid-2col">
+        <li class="rank-item">
+          <span class="rank-num">1</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Jayden's Mambo No. 4s (Jordan)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Preseason tradition at this point.</span> Four straight playoff appearances, the most wins in the league over that span, and a championship mixed in. Lamar Jackson and Jayden Daniels give him the league's best QB room, and having CJ Stroud and Malik Willis on the bench is borderline unfair. Bijan Robinson is a legitimate #1 overall fantasy RB, while Kenneth Walker should get every opportunity to thrive as KC's feature back. The WR room behind Nico Collins may be the only real hole. Until someone knocks Jordan off the mountain, he gets the top spot.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 11-3, 4th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">2</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">The Hurts Locker (Rebecca)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Coming off her best season yet.</span> Rebecca finished 3rd a year ago and brings back the core that got her there: Hurts, Jonathan Taylor, and Malik Nabers. Hurts and Herbert give her a ridiculous QB room, while a Breece Hall bounce-back could give her one of the nastiest 1-2 punches at RB. A healthy Nabers is elite, and Rome Odunze looks primed for a real Year 3 leap. There aren't many holes here.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 9-5, 3rd place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">3</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">DAMNNN Daniel!! (Matt)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Best WR duo in the league, full stop.</span> Matt has made the playoffs in two of the last three seasons, and a return starts with Ja'Marr Chase and Puka Nacua — arguably the best 1-2 punch at WR anywhere. Purdy and Daniel Jones give him a solid, if unspectacular, QB room, and De'Von Achane looks like a monster-year candidate. Bucky Irving and David Montgomery add reliable RB depth. The big question: does Travis Kelce have one more elite season left?</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 4-10, 10th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">4</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Mahomes Depot (Borovay)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Proving it wasn't a fluke starts now.</span> The defending champ finally got the monkey off his back last year. Lamb and Bowers give him an absurd foundation, while Cook and Skattebo could form one of the league's best RB tandems, with Swift as a proven fallback option. The question is QB — Mahomes is coming off injury and hasn't been an elite fantasy scorer in a while, and Tyler Shough is a giant unknown. The roster is loaded; the QB room decides if this is a repeat or a reunion tour.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 7-7, 1st place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">5</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Get Griddy With It (Nick)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">The biggest weekly edge in the league.</span> Josh Allen gives Nick perhaps the biggest QB advantage anywhere, and he's going to need it — the WR room (Jefferson, London, McMillan) all come with their own QB questions attached. The real swing factor is at RB: does Derrick Henry have one more elite season, and can Quinshon Judkins produce in what could be a rough Cleveland offense? If the backs hit, this is a championship roster.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 8-6, 6th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">6</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Baker's Bunch (Robby)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">The league's ultimate pendulum.</span> Champion in 2022, near the bottom in 2023, champion in 2024, near the bottom in 2025 — the pattern says he's due. Burrow staying upright, Jeanty getting the massive workload expected in Vegas, and DeVonta Smith taking advantage of AJ Brown's departure could make this roster dangerous. Zay Flowers keeps improving, and Jeremiyah Love has real breakout potential.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 4-10, 11th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">7</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">The Idea of BO-lieve (Gembo)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Finally, a team worth believing in?</span> Still the only original 2013 GM without a championship, and this might be the roster that finally gets him there. Jahmyr Gibbs could see a monster workload with a real shot at finishing as the #1 RB in fantasy. Drake Maye has more weapons, and Bo Nix is thriving in Sean Payton's offense. Chris Olave should be a target monster, but Jaylen Waddle's fit and rookie Carnell Tate add some uncertainty — and Luther Burden is a name to watch as a breakout candidate.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 10-4, 5th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">8</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Unsolicited Dak Pics (Parker)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">A championship ceiling, buried in question marks.</span> Coming off his best season ever, riding Christian McCaffrey to the championship game — and once again, everything may hinge on whether McCaffrey stays healthy. George Pickens would be a fantastic WR2, but can he carry the room as the top option? Can DJ Moore bounce back as Josh Allen's top target? Christian Watson remains pure boom-or-bust, and Kyler Murray is the wild card underneath it all.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 11-3, 2nd place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">9</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Breece Yourselves (Suekoff)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">The league's longest active playoff drought.</span> Hasn't made the postseason since 2021, which makes this ranking a dangerous one to hang a hat on. Jaxson Dart has real breakout potential, the Mayfield-to-Egbuka connection could be special, and Tyler Warren might be the best TE in the league not named Bowers or McBride. Everything hinges on the RB room — Hampton, Tuten, Stevenson. If the young backs hit, #9 is going to look awfully low in hindsight.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 5-9, 9th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">10</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Barking up the Wrong Tree (Ross)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">It all comes down to Saquon.</span> Missed the playoffs two straight years, coming painfully close last season. Barkley was the RB1 in 2024 before falling to RB15 a year ago — Ross needs the 2024 version back to finally break through. Chase Brown is a name to like, Dak Prescott and Jared Goff give him a strong QB room, and AJ Brown could be in for a monster season. The problem is depth: enough firepower to make the playoffs, but the stars need to stay stars.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 6-8, 7th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">11</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">Fat JaMarcus Russell (Justin)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">A lot of "we'll see."</span> At 9-19 over the last two seasons, Justin is in his longest playoff drought, dating back to 2023. He walked away from his two first-round picks with Caleb Williams and Matthew Stafford, and Tee Higgins, Travis Etienne, and Jaxon Smith-Njigba give him a strong returning core. There's real upside in Caleb and a potential Etienne bounce-back, but TreVeyon Henderson is already hurt, Father Time is undefeated against Stafford, and Marvin Harrison Jr. still hasn't become the star everyone expected.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 6-8, 8th place</div>
+          </span>
+        </li>
+        <li class="rank-item">
+          <span class="rank-num">12</span>
+          <span class="rank-move flat">&#9679;</span>
+          <span>
+            <div class="rank-team" contenteditable="true">BRICKED4BRANDONAUBREY (Charlie)</div>
+            <div class="rank-blurb" contenteditable="true"><span class="verdict">Working the waiver wire and hoping nobody notices.</span> After finishing last in 2025, Charlie was supposed to be sitting at 1.01 — except he'd traded that pick away two years earlier. He clawed his way back into round 2 for MarShawn Lloyd, but the roster thins out fast after that. Kyren Williams and Amon-Ra St. Brown are legitimate stars, but Tony Pollard and Terry McLaurin will need to carry serious weight. The QB room (Cam Ward, Kirk Cousins) offers very little security, and the bench doesn't inspire much confidence.</div>
+            <div class="rank-lastyear" contenteditable="true">2025: 3-11, 12th place</div>
+          </span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- ROW 2: Week 1 Matchups (moved up, featured) -->
+    <div class="full-row">
+      <div class="flag red">Week 1 Matchups</div>
+      <div class="rank-blurb" style="margin-bottom:10px;" contenteditable="true">This week's slate, covered by our three division beat writers: Colin Audible (Shane Falco), Frank Lee Hurtz (Bobbie Miles), and Ivana Blitz (Paul Crewe).</div>
+      <div class="matchup-grid-2col">
+        <div class="recap-minor">
+          <h3 contenteditable="true">Barking up the Wrong Tree vs The Idea of BO-lieve</h3>
+          <p contenteditable="true">Run the numbers and the swing factor is obvious: Saquon Barkley. He was the RB1 in the entire league two years ago and fell all the way to RB15 last season — that's about as wide a variance band as any player in this league carries into Week 1. Chase Brown and AJ Brown round out a solid supporting cast, but Kraft and Brooks are both banged up and there's not much cushion behind them. Gembo's distribution is flatter across the board, so even a shaky performance from any one piece barely moves the total, and a Jadarian Price breakout out of the backfield only widens the gap. Concentration risk versus depth: one of the oldest storylines in projection modeling, and it usually ends the same way.</p>
+          <div class="matchup-byline" contenteditable="true">— Ivana Blitz</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: The Idea of BO-lieve</div>
+        </div>
+        <div class="recap-minor">
+          <h3 contenteditable="true">Baker's Bunch vs Jayden's Mambo No. 4s</h3>
+          <p contenteditable="true">This is the kind of game you can feel building all week. Robby's been staring at the injury report on Jeremiyah Love like it's a horoscope, trying to read something into a 50/50 coin flip. Jordan's just... calm. Unbothered. That's what having Lamar Jackson and Bijan Robinson does to a guy who's made the playoffs four years running and has genuinely stopped being surprised by any of this. If Love plays, it's a real slugfest. If he doesn't, you can already feel the air go out of the room.</p>
+          <div class="matchup-byline" contenteditable="true">— Frank Lee Hurtz</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: Jayden's Mambo No. 4s</div>
+        </div>
+        <div class="recap-minor">
+          <h3 contenteditable="true">Unsolicited Dak Pics vs Fat JaMarcus Russell</h3>
+          <p contenteditable="true">Both teams walked into the draft with zero quarterbacks and walked out with two apiece in the first two picks — Justin on Caleb Williams and Matthew Stafford, Parker on Kyler Murray and Jordan Love. Same build, different foundation. Justin needs Caleb to clear a high bar here — not just serviceable, but a legitimate top-five fantasy quarterback. Funny wrinkle: Stafford was actually on Parker's roster last year and helped carry him to the championship game. Now he's lining up against him — does he have one more run left in the tank for someone else? Parker's plan is simpler on paper: keep McCaffrey on the field and let Murray play changeup if the ground game stalls. Whichever quarterback room holds up better wins this one.</p>
+          <div class="matchup-byline" contenteditable="true">— Colin Audible</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: Unsolicited Dak Pics</div>
+        </div>
+        <div class="recap-minor">
+          <h3 contenteditable="true">Breece Yourselves vs Mahomes Depot</h3>
+          <p contenteditable="true">Borovay's title defense opens with more question marks than answers. Mahomes is trending back from ACL/LCL surgery but hasn't graded out as an elite fantasy scorer in years even at full health, and the real hedge if he sits is Aaron Rodgers off the bench — not exactly a security blanket. What actually keeps this offense afloat is the talent around him: Cook, Skattebo, Lamb, and Bowers give it a real floor no matter who's throwing. Suekoff counters with a flatter, lower-variance build — Dart, Wilson, Egbuka, and Warren all contribute without needing one outcome to break right. Less star power, fewer landmines. In a coin-flip opener like this, that's usually the safer number to back.</p>
+          <div class="matchup-byline" contenteditable="true">— Ivana Blitz</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: Breece Yourselves</div>
+        </div>
+        <div class="recap-minor">
+          <h3 contenteditable="true">The Hurts Locker vs Get Griddy With It</h3>
+          <p contenteditable="true">Neither offense has an obvious weakness to scheme around, which is rare this early in a season. Rebecca's group is fully healthy behind Jalen Hurts and Breece Hall, who's cleared that groin issue right on schedule, and there's no clear soft spot to attack on Nick's side either, with Josh Allen, Derrick Henry, and Justin Jefferson all at full strength. This is a game where the better game plan probably matters less than which team's alpha wins his individual matchup on Sunday. Sometimes there's no chess to play, just two good rosters lining up.</p>
+          <div class="matchup-byline" contenteditable="true">— Colin Audible</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: Get Griddy With It</div>
+        </div>
+        <div class="recap-minor">
+          <h3 contenteditable="true">DAMNNNN Daniel!!!! vs BRICKED4BRANDONAUBREY</h3>
+          <p contenteditable="true">You can already write the recap for this one. Matt's offense has main-character energy — Chase and Nacua both banged up but expected to play, which at this point is basically a formality. Charlie's rolling into Week 1 just hoping Cam Ward doesn't turn the ball over four times and praying MarShawn Lloyd finds a crease somewhere. This isn't really a rivalry, it's a mood. Circle it, laminate it, tell your grandkids where you were.</p>
+          <div class="matchup-byline" contenteditable="true">— Frank Lee Hurtz</div>
+          <div class="editor-pick" contenteditable="true">Writer's Pick: DAMNNNN Daniel!!!!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Fake Ads -->
+    <div class="full-row">
+      <div class="ad-row">
+        <div class="ad-box">
+          <div class="ad-label">Advertisement</div>
+          <div class="ad-headline" contenteditable="true">Waiver Wire Insurance™</div>
+          <div class="ad-body" contenteditable="true">"I dropped him Tuesday. He scored 31 Sunday. Waiver Wire Insurance covered the therapy."</div>
+          <div class="ad-tag" contenteditable="true">Some restrictions apply. Regret is not covered.</div>
+        </div>
+        <div class="ad-box">
+          <div class="ad-label">Advertisement</div>
+          <div class="ad-headline" contenteditable="true">The Injury Report Psychic Hotline</div>
+          <div class="ad-body" contenteditable="true">Call now to find out if your RB2 is really "day-to-day" or just avoiding your texts.</div>
+          <div class="ad-tag" contenteditable="true">$4.99/minute. Results not guaranteed. Neither is Sunday.</div>
+        </div>
+        <div class="ad-box">
+          <div class="ad-label">Advertisement</div>
+          <div class="ad-headline" contenteditable="true">Braden Aubrey Extended Warranty</div>
+          <div class="ad-body" contenteditable="true">Purchased a kicker in Round 6? You may be entitled to buyer's remorse counseling.</div>
+          <div class="ad-tag" contenteditable="true">Charlie, please call the number on your screen</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 4: Staff's Favorite Picks -->
+    <div class="full-row">
+      <div class="flag">Staff's Favorite Picks</div>
+      <div class="rank-blurb" style="margin-bottom:10px;" contenteditable="true">One pick from every team's draft that the newsroom can't stop thinking about.</div>
+      <table class="injury">
+        <thead><tr><th>Team</th><th>Player</th><th style="width:60px;">Round</th><th>Why We Love It</th></tr></thead>
+        <tbody>
+          <tr>
+            <td contenteditable="true">BRICKED4BRANDONAUBREY (Charlie)</td>
+            <td contenteditable="true">Isiah Likely</td>
+            <td contenteditable="true">10</td>
+            <td contenteditable="true">Likely signed with the Giants this offseason and is being talked up as their primary pass-catching TE, not a committee piece. Getting a real path to a starting role in Round 10 is about as cheap as it gets.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Baker's Bunch (Robby)</td>
+            <td contenteditable="true">DK Metcalf</td>
+            <td contenteditable="true">6</td>
+            <td contenteditable="true">A proven WR1 talent lasting into the middle rounds. Real ceiling for a pick that cheap.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">DAMNNN Daniel!! (Matt)</td>
+            <td contenteditable="true">De'Von Achane</td>
+            <td contenteditable="true">1</td>
+            <td contenteditable="true">A true league-winning RB1 with the speed to break a game open on any given touch.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Breece Yourselves (Suekoff)</td>
+            <td contenteditable="true">Tyler Warren</td>
+            <td contenteditable="true">3</td>
+            <td contenteditable="true">A rookie TE with real top-five upside if the target share materializes the way it looked in camp.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Fat JaMarcus Russell (Justin)</td>
+            <td contenteditable="true">TreVeyon Henderson</td>
+            <td contenteditable="true">5</td>
+            <td contenteditable="true">A talented young back with real touchdown equity, landing well outside the first four rounds.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Barking up the Wrong Tree (Ross)</td>
+            <td contenteditable="true">Tucker Kraft</td>
+            <td contenteditable="true">7</td>
+            <td contenteditable="true">If healthy, a legitimate top-eight TE at a Round 7 price. That's the whole bet.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Get Griddy With It (Nick)</td>
+            <td contenteditable="true">Sam LaPorta</td>
+            <td contenteditable="true">5</td>
+            <td contenteditable="true">Landed via the draft-day trade with Charlie — a true TE1 at a serious discount.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">The Idea of BO-lieve (Gembo)</td>
+            <td contenteditable="true">Luther Burden</td>
+            <td contenteditable="true">5</td>
+            <td contenteditable="true">Real breakout-season upside in a good offense, landing well after the hype-driven names were gone.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Jayden's Mambo No. 4s (Jordan)</td>
+            <td contenteditable="true">Mike Evans</td>
+            <td contenteditable="true">5</td>
+            <td contenteditable="true">Still producing at a high level, still going in the middle rounds. Boring, reliable, exactly what a four-time-playoff-team roster needs.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">The Hurts Locker (Rebecca)</td>
+            <td contenteditable="true">Alec Pierce</td>
+            <td contenteditable="true">7</td>
+            <td contenteditable="true">A big-play, red-zone flier at a true dart-throw price. Low cost, real spike-week upside.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Unsolicited Dak Pics (Parker)</td>
+            <td contenteditable="true">DJ Moore</td>
+            <td contenteditable="true">4</td>
+            <td contenteditable="true">A proven WR1 in the right offense, at a fair discount for the production he still provides.</td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Mahomes Depot (Borovay)</td>
+            <td contenteditable="true">Brian Thomas Jr.</td>
+            <td contenteditable="true">6</td>
+            <td contenteditable="true">Explosive, WR1-caliber upside sitting on the roster as a mid-round pick. A real steal if the target share shows up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MASTHEAD: Our Staff -->
+    <div class="full-row">
+      <div class="flag">Meet the Beat Writers</div>
+      <div class="staff-row">
+        <div class="staff-card">
+          <div class="name" contenteditable="true">Colin Audible</div>
+          <div class="beat" contenteditable="true">Shane Falco Beat Writer</div>
+          <div class="bio" contenteditable="true">Breaks down every snap like it's the Super Bowl. If you want to know why a roster works schematically, Colin's your guy — just don't ask him how he feels about it.</div>
+        </div>
+        <div class="staff-card">
+          <div class="name" contenteditable="true">Frank Lee Hurtz</div>
+          <div class="beat" contenteditable="true">Bobbie Miles Beat Writer</div>
+          <div class="bio" contenteditable="true">More interested in the story than the stat sheet. Frank's been known to get choked up over a Week 1 waiver claim. Reads a room better than he reads a box score.</div>
+        </div>
+        <div class="staff-card">
+          <div class="name" contenteditable="true">Ivana Blitz</div>
+          <div class="beat" contenteditable="true">Paul Crewe Beat Writer</div>
+          <div class="bio" contenteditable="true">Trusts the model, not the moment. If the projections and your gut disagree, Ivana's siding with the projections — and reminding you about it for weeks.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 5: This Week in League History -->
+    <div class="full-row">
+      <div class="flag">This Week in League History</div>
+      <div class="history-box">
+        <h4 contenteditable="true">The Best Season and the Worst Season Belong to the Same Guy</h4>
+        <p contenteditable="true"><span class="history-year">2016:</span> <span contenteditable="true">Nate McWhorter (no longer in the league) opened a season that finished 11-1 — still the best regular-season record in league history — and closed it out with a championship.</span></p>
+        <p contenteditable="true"><span class="history-year">2018:</span> <span contenteditable="true">Two years later, that same Nate McWhorter went 0-13. A perfectly winless season, the only one on the books. Fantasy football does not care about your track record.</span></p>
+      </div>
+    </div>
+
+    <!-- ROW 6: Classifieds -->
+    <div class="full-row">
+      <div class="flag">Classifieds</div>
+      <div class="classifieds-grid">
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">For Sale</div>
+          <p contenteditable="true">Two bench quarterbacks, gently used. Malik Willis and CJ Stroud both available — will listen to any reasonable offer. Serious inquiries only, please. Text Jordan.</p>
+        </div>
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">Wanted</div>
+          <p contenteditable="true">Starting-caliber RB, needed immediately. TreVeyon Henderson just got ruled out and I have nothing behind him. Will overpay out of pure panic. Justin is standing by.</p>
+        </div>
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">Personals</div>
+          <p contenteditable="true">Long-suffering original franchise (2013–present, 0 titles) seeks first ring. Must be patient. Three runner-ups and counting. Inquire: Gembo.</p>
+        </div>
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">Lost &amp; Found</div>
+          <p contenteditable="true">LOST: one playoff berth, last seen 2021. Reward offered for safe return. If found, contact Suekoff immediately.</p>
+        </div>
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">Services</div>
+          <p contenteditable="true">First-time championship consulting now available. Rates negotiable, knee health not guaranteed. Borovay's office hours are whenever.</p>
+        </div>
+        <div class="classified-ad">
+          <div class="cat" contenteditable="true">Seeking Friends</div>
+          <p contenteditable="true">Lonely starting lineup seeks bench depth for meaningful relationship. Must be willing to start immediately upon arrival — there is, quite literally, no one else. Charlie's DMs are open.</p>
+        </div>
+      </div>
+      <div class="classifieds-note" contenteditable="true">Want your own ad in next week's Classifieds? Message the Commissioner's Office to get it in the next edition.</div>
+    </div>
+
+    <div class="masthead-footer" contenteditable="true">
+      The Benchwarmer's Bulletin &middot; Preseason Edition &middot; League of Extraordinary Devils &middot; All grades unofficial until pads come on &middot; No refunds, no excuses, no mercy
+    </div>
+
+  </div>
+
+</body>
+</html>
