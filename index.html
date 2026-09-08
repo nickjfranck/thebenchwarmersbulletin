@@ -45,33 +45,6 @@
     position:relative;
   }
 
-  /* ---------- Toolbar (screen only) ---------- */
-  .toolbar{
-    max-width:var(--max-width);
-    margin:0 auto 12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    font-family:'Oswald', sans-serif;
-    color:#EDE7D8;
-    font-size:13px;
-    padding:0 4px;
-  }
-  .toolbar span{opacity:0.75;}
-  .toolbar button{
-    font-family:'Oswald', sans-serif;
-    font-size:13px;
-    letter-spacing:0.03em;
-    background:var(--masthead-red);
-    color:#fff;
-    border:none;
-    padding:9px 16px;
-    cursor:pointer;
-    border-radius:2px;
-  }
-  .toolbar button:hover{background:#701818;}
-
   [contenteditable="true"]{
     outline:none;
     border-radius:2px;
@@ -597,18 +570,12 @@
 
   @media print{
     body{background:#fff;}
-    .toolbar{display:none;}
     .sheet{box-shadow:none; margin:0; max-width:100%;}
     [contenteditable="true"]:hover, [contenteditable="true"]:focus{background:transparent;}
   }
 </style>
 </head>
 <body>
-
-  <div class="toolbar">
-    <span>Click any text to edit it. Nothing saves automatically — print or export when you're done.</span>
-    <button onclick="window.print()">Print / Save as PDF</button>
-  </div>
 
   <div class="sheet">
 
